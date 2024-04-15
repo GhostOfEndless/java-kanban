@@ -1,35 +1,35 @@
-package service;
+package entities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Epic extends Task {
 
-    private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
+    final HashMap<Integer, Subtask> subtasks = new HashMap<>();
 
-    public Epic(String description, String name) {
+    public Epic( String name, String description) {
         super(description, name);
     }
 
-    public void addSubtask(Subtask newSubtask) {
+    void addSubtask(Subtask newSubtask) {
         subtasks.putIfAbsent(newSubtask.getId(), newSubtask);
     }
 
-    public void updateSubtask(Subtask newSubtask) {
+    void updateSubtask(Subtask newSubtask) {
         if (subtasks.containsKey(newSubtask.getId())) {
             subtasks.put(newSubtask.getId(), newSubtask);
         }
     }
 
-    public ArrayList<Subtask> getSubtasks() {
-        return (ArrayList<Subtask>) subtasks.values();
+    ArrayList<Subtask> getSubtasks() {
+        return new ArrayList<>(subtasks.values());
     }
 
-    public void removeSubtask(Integer id) {
+    void removeSubtask(Integer id) {
         subtasks.remove(id);
     }
 
-    public void updateStatus() {
+    void updateStatus() {
         boolean done = true;
         boolean inProgress = false;
 
@@ -49,5 +49,16 @@ public class Epic extends Task {
         } else {
             status = Status.NEW;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Epic{" +
+                "subtasks=" + subtasks +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", id=" + id +
+                ", status=" + status +
+                '}';
     }
 }

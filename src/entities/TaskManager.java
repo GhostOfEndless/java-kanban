@@ -1,4 +1,4 @@
-package service;
+package entities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,15 +26,15 @@ public class TaskManager {
     }
 
     public ArrayList<SimpleTask> getAllTasks() {
-        return (ArrayList<SimpleTask>) tasks.values();
+        return new ArrayList<>(tasks.values());
     }
 
     public ArrayList<Epic> getAllEpics() {
-        return (ArrayList<Epic>) epics.values();
+        return new ArrayList<>(epics.values());
     }
 
     public ArrayList<Subtask> getAllSubtasks() {
-        return (ArrayList<Subtask>) subtasks.values();
+        return new ArrayList<>(subtasks.values());
     }
 
     public void removeAllTasks() {

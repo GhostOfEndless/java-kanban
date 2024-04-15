@@ -1,11 +1,11 @@
-package service;
+package entities;
 
 import java.util.Objects;
 
-public class Task {
-    private String name;
-    private String description;
-    private final Integer id;
+public abstract class Task {
+    String name;
+    String description;
+    final Integer id;
     Status status;
 
     public Task(String description, String name) {
