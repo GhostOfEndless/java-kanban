@@ -60,23 +60,18 @@ public class TaskManager {
     }
 
     public void createTask(Task newTask) {
-        // создаём задачу только в том случае, если пользователь не вызывал сам setId(Integer)
-        if (newTask.getId() == null) {
-            newTask.setId(getNewId());
-            tasks.put(newTask.getId(), newTask);
-        }
+        newTask.setId(getNewId());
+        tasks.put(newTask.getId(), newTask);
     }
 
     public void createEpic(Epic newEpic) {
-        if (newEpic.getId() == null) {
-            newEpic.setId(getNewId());
-            epics.put(newEpic.getId(), newEpic);
-        }
+        newEpic.setId(getNewId());
+        epics.put(newEpic.getId(), newEpic);
     }
 
     public void createSubtask(Subtask newSubtask) {
         // проверка на корректность epicId
-        if (newSubtask.getId() == null && epics.containsKey(newSubtask.getEpicId())) {
+        if (epics.containsKey(newSubtask.getEpicId())) {
             newSubtask.setId(getNewId());
             subtasks.put(newSubtask.getId(), newSubtask);
             Epic epic = epics.get(newSubtask.getEpicId());
