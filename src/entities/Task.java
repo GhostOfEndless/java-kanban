@@ -2,21 +2,24 @@ package entities;
 
 import java.util.Objects;
 
-public abstract class Task {
-    String name;
-    String description;
-    final Integer id;
-    Status status;
+public class Task {
+    protected String name;
+    protected String description;
+    protected Integer id;
+    protected Status status;
 
     public Task(String description, String name) {
-        this.id = TaskManager.getNewId();
         this.description = description;
         this.name = name;
         this.status = Status.NEW;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getDescription() {
@@ -39,19 +42,30 @@ public abstract class Task {
         this.description = description;
     }
 
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return id.equals(task.id) &&
-                Objects.equals(name, task.name) &&
-                Objects.equals(description, task.description) &&
-                status == task.status;
+        return id.equals(task.id);
     }
 
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", id=" + id +
+                ", status=" + status +
+                '}';
     }
 }

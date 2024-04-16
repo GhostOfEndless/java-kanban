@@ -5,49 +5,61 @@ import java.util.HashMap;
 
 public class Epic extends Task {
 
-    final HashMap<Integer, Subtask> subtasks = new HashMap<>();
+    private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
 
     public Epic( String name, String description) {
         super(description, name);
     }
 
-    void addSubtask(Subtask newSubtask) {
+    public void addSubtask(Subtask newSubtask) {
         subtasks.putIfAbsent(newSubtask.getId(), newSubtask);
     }
 
-    void updateSubtask(Subtask newSubtask) {
+    public void updateSubtask(Subtask newSubtask) {
         if (subtasks.containsKey(newSubtask.getId())) {
             subtasks.put(newSubtask.getId(), newSubtask);
         }
     }
 
-    ArrayList<Subtask> getSubtasks() {
+    public ArrayList<Subtask> getSubtasks() {
         return new ArrayList<>(subtasks.values());
     }
 
-    void removeSubtask(Integer id) {
+    public void removeSubtask(Integer id) {
         subtasks.remove(id);
     }
 
-    void updateStatus() {
-        boolean done = true;
-        boolean inProgress = false;
+    public void removeAllSubtasks() {
+        subtasks.clear();
+    }
+
+    @Override
+    public void setStatus(Status status) {}
+
+    public void updateStatus() {
+        // Если список подзадач пуст, то ставим статус NEW и ничего не проверяем
+        if (subtasks.isEmpty()) {
+            status = Status.NEW;
+            return;
+        }
+
+        int countDone = 0;
+        int countNew = 0;
 
         for (Subtask subtask: subtasks.values()) {
-            if (subtask.getStatus() != Status.DONE) {
-                done = false;
-                if (subtask.getStatus() == Status.IN_PROGRESS) {
-                    inProgress = true;
-                }
+            if (subtask.getStatus() == Status.NEW) {
+                countNew++;
+            } else if (subtask.getStatus() == Status.DONE) {
+                countDone++;
             }
         }
 
-        if (done) {
+        if (countDone == subtasks.size()) {
             status = Status.DONE;
-        } else if (inProgress) {
-            status = Status.IN_PROGRESS;
-        } else {
+        } else if (countNew == subtasks.size()) {
             status = Status.NEW;
+        } else {
+            status = Status.IN_PROGRESS;
         }
     }
 

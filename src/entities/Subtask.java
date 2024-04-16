@@ -13,10 +13,6 @@ public class Subtask extends Task {
         return epicId;
     }
 
-    public void setStatus(Status newStatus) {
-        this.status = newStatus;
-    }
-
     @Override
     public String toString() {
         return "Subtask{" +

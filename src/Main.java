@@ -1,18 +1,15 @@
 import entities.*;
+import service.TaskManager;
 
 public class Main {
 
-    /*
-        Менеджер задач в программе должен быть только один,
-        поэтому уместнее всего реализовать в нём паттерн Singleton
-         */
-    private static final TaskManager manager = TaskManager.getInstance();
+    private static final TaskManager manager = new TaskManager();
 
     public static void main(String[] args) {
         System.out.println("* Создание объектов *");
 
-        SimpleTask taskOne = new SimpleTask("Task One", "Description for task one");
-        SimpleTask taskTwo = new SimpleTask("Task Two", "Description for task two");
+        Task taskOne = new Task("Task One", "Description for task one");
+        Task taskTwo = new Task("Task Two", "Description for task two");
         manager.createTask(taskOne);
         manager.createTask(taskTwo);
 
@@ -45,7 +42,7 @@ public class Main {
 
         subtaskOne.setStatus(Status.DONE);
         manager.updateSubtask(subtaskOne);
-        subtaskTwo.setStatus(Status.IN_PROGRESS);
+        subtaskTwo.setStatus(Status.NEW);
         manager.updateSubtask(subtaskTwo);
         subtaskThree.setStatus(Status.DONE);
         manager.updateSubtask(subtaskThree);

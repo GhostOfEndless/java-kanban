@@ -1,31 +1,24 @@
-package entities;
+package service;
+
+import entities.Epic;
+import entities.Subtask;
+import entities.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TaskManager {
 
-    private static TaskManager instance;
-    private final HashMap<Integer, SimpleTask> tasks = new HashMap<>();
+    private final HashMap<Integer, Task> tasks = new HashMap<>();
     private final HashMap<Integer, Epic> epics = new HashMap<>();
     private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
-    private static Integer idCounter = 0;
+    private Integer idCounter = 0;
 
-    private TaskManager() {
-    }
-
-    public static TaskManager getInstance() {
-        if (instance == null) {
-            instance = new TaskManager();
-        }
-        return instance;
-    }
-
-    public static Integer getNewId() {
+    private Integer getNewId() {
         return idCounter++;
     }
 
-    public ArrayList<SimpleTask> getAllTasks() {
+    public ArrayList<Task> getAllTasks() {
         return new ArrayList<>(tasks.values());
     }
 
@@ -47,10 +40,14 @@ public class TaskManager {
     }
 
     public void removeAllSubtasks() {
+        for (Epic epic: epics.values()) {
+            epic.removeAllSubtasks();
+            epic.updateStatus();
+        }
         subtasks.clear();
     }
 
-    public SimpleTask getTaskById(Integer id) {
+    public Task getTaskById(Integer id) {
         return tasks.get(id);
     }
 
@@ -62,24 +59,33 @@ public class TaskManager {
         return subtasks.get(id);
     }
 
-    public void createTask(SimpleTask newTask) {
-        tasks.putIfAbsent(newTask.getId(), newTask);
+    public void createTask(Task newTask) {
+        // создаём задачу только в том случае, если пользователь не вызывал сам setId(Integer)
+        if (newTask.getId() == null) {
+            newTask.setId(getNewId());
+            tasks.put(newTask.getId(), newTask);
+        }
     }
 
     public void createEpic(Epic newEpic) {
-        epics.putIfAbsent(newEpic.getId(), newEpic);
+        if (newEpic.getId() == null) {
+            newEpic.setId(getNewId());
+            epics.put(newEpic.getId(), newEpic);
+        }
     }
 
     public void createSubtask(Subtask newSubtask) {
         // проверка на корректность epicId
-        if (!subtasks.containsKey(newSubtask.getId()) &&
-                epics.containsKey(newSubtask.getEpicId())) {
+        if (newSubtask.getId() == null && epics.containsKey(newSubtask.getEpicId())) {
+            newSubtask.setId(getNewId());
             subtasks.put(newSubtask.getId(), newSubtask);
-            epics.get(newSubtask.getEpicId()).addSubtask(newSubtask);
+            Epic epic = epics.get(newSubtask.getEpicId());
+            epic.addSubtask(newSubtask);
+            epic.updateStatus();
         }
     }
 
-    public void updateTask(SimpleTask newTask) {
+    public void updateTask(Task newTask) {
         if (tasks.containsKey(newTask.getId())) {
             tasks.put(newTask.getId(), newTask);
         }
@@ -128,7 +134,9 @@ public class TaskManager {
 
     public void removeSubtaskById(Integer id) {
         if (subtasks.containsKey(id)) {
-            getEpicById(subtasks.get(id).getEpicId()).removeSubtask(id);
+            Epic epic = getEpicById(subtasks.get(id).getEpicId());
+            epic.removeSubtask(id);
+            epic.updateStatus();
             subtasks.remove(id);
         }
     }
