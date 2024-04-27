@@ -1,9 +1,8 @@
-package main;
+package main.service;
 
 import main.entities.Epic;
 import main.entities.Subtask;
 import main.entities.Task;
-import main.service.TaskManager;
 import main.util.Managers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
