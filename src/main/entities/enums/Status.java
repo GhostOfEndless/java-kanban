@@ -1,4 +1,4 @@
-package entities;
+package main.entities.enums;
 
 public enum Status {
     NEW,

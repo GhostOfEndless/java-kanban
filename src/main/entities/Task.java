@@ -1,4 +1,6 @@
-package entities;
+package main.entities;
+
+import main.entities.enums.Status;
 
 import java.util.Objects;
 
@@ -15,9 +17,8 @@ public class Task {
     }
 
     public Task(Task task) {
-        this.description = task.description;
+        this(task.description, task.name);
         this.status = task.status;
-        this.name = task.name;
         this.id = task.id;
     }
 

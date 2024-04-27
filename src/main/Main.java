@@ -1,7 +1,11 @@
-import entities.*;
+package main;
 
-import service.Managers;
-import service.TaskManager;
+import main.entities.Epic;
+import main.entities.Subtask;
+import main.entities.Task;
+import main.entities.enums.Status;
+import main.service.TaskManager;
+import main.util.Managers;
 
 public class Main {
 

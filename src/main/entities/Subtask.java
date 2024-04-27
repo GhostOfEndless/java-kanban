@@ -1,4 +1,4 @@
-package entities;
+package main.entities;
 
 public class Subtask extends Task {
 
@@ -7,6 +7,11 @@ public class Subtask extends Task {
     public Subtask(String name, String description, Integer epicId) {
         super(description, name);
         this.epicId = epicId;
+    }
+
+    public Subtask(Subtask subtask) {
+        super(subtask);
+        this.epicId = subtask.epicId;
     }
 
     public Integer getEpicId() {

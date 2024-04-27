@@ -1,14 +1,43 @@
-package entities;
+package main.entities;
+
+import main.entities.enums.Status;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Epic extends Task {
 
-    private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
+    private final HashMap<Integer, Subtask> subtasks;
 
-    public Epic( String name, String description) {
+    public Epic(String name, String description) {
         super(description, name);
+        subtasks = new HashMap<>();
+    }
+
+    public Epic(Epic epic) {
+        super(epic);
+        this.subtasks = deepCopyHashMap(epic);
+    }
+
+    private HashMap<Integer, Subtask> deepCopyHashMap(Epic epic) {
+        HashMap<Integer, Subtask> map = new HashMap<>();
+
+        for(Map.Entry<Integer, Subtask> entry: epic.subtasks.entrySet()) {
+            map.put(entry.getKey(), new Subtask(entry.getValue()));
+        }
+
+        return map;
+    }
+
+    private ArrayList<Subtask> deepCopyArrayList() {
+        ArrayList<Subtask> arrayList = new ArrayList<>();
+
+        for (Subtask subtask: subtasks.values()) {
+            arrayList.add(new Subtask(subtask));
+        }
+
+        return arrayList;
     }
 
     public void addSubtask(Subtask newSubtask) {
@@ -22,7 +51,7 @@ public class Epic extends Task {
     }
 
     public ArrayList<Subtask> getSubtasks() {
-        return new ArrayList<>(subtasks.values());
+        return deepCopyArrayList();
     }
 
     public void removeSubtask(Integer id) {
