@@ -1,9 +1,11 @@
 import entities.*;
+
+import service.Managers;
 import service.TaskManager;
 
 public class Main {
 
-    private static final TaskManager manager = new TaskManager();
+    private static final TaskManager manager = Managers.getDefault();
 
     public static void main(String[] args) {
         System.out.println("* Создание объектов *");
@@ -58,11 +60,26 @@ public class Main {
     }
 
     private static void printTasks() {
-        System.out.println("Список эпиков: ");
-        System.out.println(manager.getAllEpics());
-        System.out.println("Список задач: ");
-        System.out.println(manager.getAllTasks());
-        System.out.println("Список подзадач: ");
-        System.out.println(manager.getAllSubtasks());
+        System.out.println("Задачи:");
+        for (Task task : manager.getAllTasks()) {
+            System.out.println(task);
+        }
+        System.out.println("Эпики:");
+        for (Epic epic : manager.getAllEpics()) {
+            System.out.println(epic);
+
+            for (Subtask task : epic.getSubtasks()) {
+                System.out.println("--> " + task);
+            }
+        }
+        System.out.println("Подзадачи:");
+        for (Subtask subtask : manager.getAllSubtasks()) {
+            System.out.println(subtask);
+        }
+
+        System.out.println("История:");
+        for (Task task : manager.getHistory()) {
+            System.out.println(task);
+        }
     }
 }

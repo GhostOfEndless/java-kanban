@@ -14,6 +14,13 @@ public class Task {
         this.status = Status.NEW;
     }
 
+    public Task(Task task) {
+        this.description = task.description;
+        this.status = task.status;
+        this.name = task.name;
+        this.id = task.id;
+    }
+
     public Integer getId() {
         return id;
     }
