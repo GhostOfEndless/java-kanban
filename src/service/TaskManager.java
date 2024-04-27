@@ -26,17 +26,17 @@ public interface TaskManager {
 
     Subtask getSubtaskById(Integer id);
 
-    void createTask(Task newTask);
+    Task createTask(Task newTask);
 
-    void createEpic(Epic newEpic);
+    Epic createEpic(Epic newEpic);
 
-    void createSubtask(Subtask newSubtask);
+    Subtask createSubtask(Subtask newSubtask);
 
-    void updateTask(Task newTask);
+    Task updateTask(Task newTask);
 
-    void updateEpic(Epic newEpic);
+    Epic updateEpic(Epic newEpic);
 
-    void updateSubtask(Subtask newSubtask);
+    Subtask updateSubtask(Subtask newSubtask);
 
     ArrayList<Subtask> getAllSubtasksOfEpic(Epic epic);
 

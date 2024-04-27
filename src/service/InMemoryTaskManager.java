@@ -73,19 +73,21 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void createTask(Task newTask) {
+    public Task createTask(Task newTask) {
         newTask.setId(idCounter++);
         tasks.put(newTask.getId(), newTask);
+        return newTask;
     }
 
     @Override
-    public void createEpic(Epic newEpic) {
+    public Epic createEpic(Epic newEpic) {
         newEpic.setId(idCounter++);
         epics.put(newEpic.getId(), newEpic);
+        return newEpic;
     }
 
     @Override
-    public void createSubtask(Subtask newSubtask) {
+    public Subtask createSubtask(Subtask newSubtask) {
         // проверка на корректность epicId
         if (epics.containsKey(newSubtask.getEpicId())) {
             newSubtask.setId(idCounter++);
@@ -94,27 +96,33 @@ public class InMemoryTaskManager implements TaskManager {
             epic.addSubtask(newSubtask);
             epic.updateStatus();
         }
+
+        return newSubtask;
     }
 
     @Override
-    public void updateTask(Task newTask) {
+    public Task updateTask(Task newTask) {
         if (tasks.containsKey(newTask.getId())) {
             tasks.put(newTask.getId(), newTask);
         }
+
+        return newTask;
     }
 
     @Override
-    public void updateEpic(Epic newEpic) {
+    public Epic updateEpic(Epic newEpic) {
         // обновить можно только имя и описание
         if (epics.containsKey(newEpic.getId())) {
             Epic epic = epics.get(newEpic.getId());
             epic.setName(newEpic.getName());
             epic.setDescription(newEpic.getDescription());
         }
+
+        return newEpic;
     }
 
     @Override
-    public void updateSubtask(Subtask newSubtask) {
+    public Subtask updateSubtask(Subtask newSubtask) {
         if (subtasks.containsKey(newSubtask.getId()) &&
                 epics.containsKey(newSubtask.getEpicId())) {
             subtasks.put(newSubtask.getId(), newSubtask);
@@ -122,6 +130,8 @@ public class InMemoryTaskManager implements TaskManager {
             epic.updateSubtask(newSubtask);
             epic.updateStatus();
         }
+
+        return newSubtask;
     }
 
     @Override

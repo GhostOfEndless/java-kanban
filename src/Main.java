@@ -10,28 +10,19 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("* Создание объектов *");
 
-        Task taskOne = new Task("Task One", "Description for task one");
-        Task taskTwo = new Task("Task Two", "Description for task two");
-        manager.createTask(taskOne);
-        manager.createTask(taskTwo);
+        Task taskOne = manager.createTask(new Task("Task One", "Description for task one"));
+        Task taskTwo = manager.createTask(new Task("Task Two", "Description for task two"));
 
-        Epic epicOne = new Epic("Epic one", "Description for epic one");
-        manager.createEpic(epicOne);
+        Epic epicOne = manager.createEpic(new Epic("Epic one", "Description for epic one"));
+        Epic epicTwo = manager.createEpic(new Epic("Epic two", "Description for epic two"));
 
-        Subtask subtaskOne = new Subtask("Subtask one",
-                "Description for subtask one", epicOne.getId());
-        Subtask subtaskTwo = new Subtask("Subtask two",
-                "Description for subtask two", epicOne.getId());
-        manager.createSubtask(subtaskOne);
-        manager.createSubtask(subtaskTwo);
+        Subtask subtaskOne = manager.createSubtask(new Subtask("Subtask one",
+                "Description for subtask one", epicOne.getId()));
+        Subtask subtaskTwo = manager.createSubtask(new Subtask("Subtask two",
+                "Description for subtask two", epicOne.getId()));
 
-
-        Epic epicTwo = new Epic("Epic two", "Description for epic two");
-        manager.createEpic(epicTwo);
-
-        Subtask subtaskThree = new Subtask("Subtask three",
-                "Description for subtask three", epicTwo.getId());
-        manager.createSubtask(subtaskThree);
+        Subtask subtaskThree = manager.createSubtask(new Subtask("Subtask three",
+                "Description for subtask three", epicTwo.getId()));
 
         printTasks();
         // ******************************************
@@ -53,8 +44,10 @@ public class Main {
         // *********************************************
         System.out.println("* Удаление задач *");
 
-        manager.removeTaskById(taskOne.getId());
         manager.removeEpicById(epicOne.getId());
+
+        manager.getTaskById(taskOne.getId());
+        manager.getTaskById(taskTwo.getId());
 
         printTasks();
     }
